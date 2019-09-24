@@ -1,26 +1,26 @@
-import React from 'react';
-import { connect } from "react-redux";
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import ToDO from "./pages/todo";
+import { Provider as ReduxProvider } from "react-redux";
+import configureStore from "./modules/store";
 
-class App extends React.Component {
+const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
+
+class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div>Age: <span>{this.props.age}</span></div>
-        <button onClick={this.props.onAgeUp}>Age Up</button>
-        <button onClick={this.props.onAgeDown}>Age Down</button>
-      </div>
+      <ReduxProvider store={reduxStore}>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">ToDo Redux app</h1>
+          </header>
+          <ToDO />
+        </div>
+      </ReduxProvider>
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    age: state.age
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAgeUp: () => dispatch({ type: "AGE_UP" }),
-    onAgeDown: () => dispatch({ type: "AGE_DOWN" })
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default App;
